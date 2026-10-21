@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* GeoWild tokens: forest green and lime on warm off-white (forest + lime on warm bone), plus an earthy bark accent. */
+@theme {
+  --color-forest: #163300;
+  --color-spruce: #054d28;
+  --color-lime: #9fe870;
+  --color-linen: #e2f6d5;
+  --color-bark: #7c5733;
+  --color-clay: #efe6d6;
+  --color-ink: #0e0f0c;
+  --color-charcoal: #454745;
+  --color-slate: #6a6c6a;
+  --color-pebble: #868685;
+  --color-bone: #f4f2ea;
+  --color-surface: #fdfcf9;
+  --color-tonal: #f0eee5; /* secondary surface: metadata, controls */
+  --color-line: #dcd9cc;
+  --color-alarm: #cb272f;
+  --color-signal: #0b4c72;
+  --color-ochre: #b98a1e;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+
+  --text-micro: 12px;
+  --text-caption: 14px;
+  --text-body: 16px;
+  --text-lead: 18px;
+
+  /* Shape system: controls 10, surfaces 16, the habitat 20 */
+  --radius-card: 10px;
+  --radius-control: 10px;
+  --radius-surface: 16px;
+  --radius-hero: 20px;
+  --radius-panel: 16px;
+  --shadow-lift: 0 6px 20px rgba(14, 15, 12, 0.08);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --container-page: 1200px;
+}
+
+/* shadcn semantic aliases so future shadcn components inherit the system */
+:root {
+  --background: var(--color-bone);
+  --foreground: var(--color-ink);
+  --primary: var(--color-forest);
+  --primary-foreground: #fff;
+  --secondary: var(--color-linen);
+  --secondary-foreground: var(--color-forest);
+  --muted: var(--color-clay);
+  --muted-foreground: var(--color-slate);
+  --accent: var(--color-lime);
+  --accent-foreground: var(--color-forest);
+  --border: var(--color-line);
+  --input: var(--color-pebble);
+  --ring: var(--color-forest);
+  --destructive: var(--color-alarm);
+  --radius: 10px;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-bone text-charcoal font-sans antialiased;
+    font-feature-settings: "calt", "cv11";
+    letter-spacing: -0.006em;
+    min-height: 100dvh;
+  }
+  h1, h2, h3 { @apply text-ink; }
+  :focus-visible { outline: 2px solid var(--color-forest); outline-offset: 2px; }
+  .on-dark :focus-visible, .on-dark:focus-visible { outline-color: var(--color-lime); }
+  ::selection { background: var(--color-lime); color: var(--color-forest); }
+}
+
+@layer components {
+  .display {
+    @apply font-black text-ink uppercase;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+  .eyebrow { @apply text-micro font-semibold uppercase text-slate; letter-spacing: 0.08em; }
+  .num { font-variant-numeric: tabular-nums; }
+  .hairline { @apply border-line; border-width: 1px; }
+}
+
+/* Material Symbols Rounded */
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  transition: font-variation-settings 160ms var(--ease-out);
+}
+.material-symbols-rounded[data-fill="1"] { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+
+/* Entrance: short stagger, transform/opacity only */
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 420ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@media (prefers-reduced-motion: reduce) { .rise { animation: none; } * { transition-duration: 0ms !important; } }
+
+/* LIVE indicator: a slow opacity pulse, off under reduced motion */
+@keyframes gw-live { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.gw-live { animation: gw-live 1.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .gw-live { animation: none; } }
+
+/* Short fade when a swapped element (the closest pair) changes */
+@keyframes gw-fade { from { opacity: 0; } to { opacity: 1; } }
+.gw-swap { animation: gw-fade 240ms var(--ease-out) both; }
+@media (prefers-reduced-motion: reduce) { .gw-swap { animation: none; } }

@@ -1,0 +1,31 @@
+# dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# logs and temporary files
+*.log
+*.tmp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# local report build files (the final PDF is kept in docs/)
+report/
