@@ -1,4 +1,5 @@
 import asyncio
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -21,10 +22,14 @@ async def lifespan(_: FastAPI):
     task.cancel()
 
 
+# Local dev origins, plus any deployed frontend origins listed (comma-separated) in ALLOWED_ORIGINS.
+ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+ORIGINS += [o.strip().rstrip("/") for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
+
 app = FastAPI(title="GeoWild API", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

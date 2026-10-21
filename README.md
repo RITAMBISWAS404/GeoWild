@@ -96,6 +96,11 @@ npm run lint
 
 The verification script checks both algorithms against brute force and a linear scan on random inputs and on simulation snapshots, and prints operation counts for larger inputs.
 
+## Deployment
+
+- **Backend (Render):** `render.yaml` defines one persistent web service (root `backend`, `pip install -r requirements.txt`, `uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1`). Keep a single process: the simulation state and ticker are in memory. Set `ALLOWED_ORIGINS` to the frontend's origin (comma-separated for several).
+- **Frontend (Vercel):** root directory `frontend`, framework Vite, build `npm run build`, output `dist`. Set `VITE_API_URL` to the backend's base URL without a trailing slash (for example `https://geowild-api.onrender.com`).
+
 ## Dataset
 
 All animal positions and movement are synthetic, generated from a fixed random seed. They do not represent real wildlife tracking, geography or behaviour. The animal emoji are only visual labels.
